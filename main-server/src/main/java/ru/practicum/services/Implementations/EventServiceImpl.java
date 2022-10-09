@@ -38,14 +38,14 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
 
     @Override
-    public EventFullDto create(long ownerId, CreateEventDto CreateEventDto) {
+    public EventFullDto create(long ownerId, CreateEventDto createEventDto) {
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователя с таким id не существует!"));
 
-        Category category = categoryRepository.findById(CreateEventDto.getCategory())
+        Category category = categoryRepository.findById(createEventDto.getCategory())
                 .orElseThrow(() -> new NotFoundException("Категории с таким id не существует!"));
 
-        Event event = EventMapper.toEvent(CreateEventDto);
+        Event event = EventMapper.toEvent(createEventDto);
         event.setOwner(owner);
         event.setCategory(category);
         event = eventRepository.save(event);

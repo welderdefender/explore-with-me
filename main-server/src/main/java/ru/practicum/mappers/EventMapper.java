@@ -82,11 +82,11 @@ public class EventMapper {
         prepareUpdateEvent((UpdateEvent) updateEventRequest, event);
     }
 
-    public static void prepareToUpdate(AdminUpdateEvent AdminUpdateEvent, Event event) {
-        prepareUpdateEvent((UpdateEvent) AdminUpdateEvent, event);
-        if (AdminUpdateEvent.getLocation() != null) {
-            event.setLat(AdminUpdateEvent.getLocation().getLat());
-            event.setLon(AdminUpdateEvent.getLocation().getLon());
+    public static void prepareToUpdate(AdminUpdateEvent adminUpdateEvent, Event event) {
+        prepareUpdateEvent((UpdateEvent) adminUpdateEvent, event);
+        if (adminUpdateEvent.getLocation() != null) {
+            event.setLat(adminUpdateEvent.getLocation().getLat());
+            event.setLon(adminUpdateEvent.getLocation().getLon());
         }
     }
 

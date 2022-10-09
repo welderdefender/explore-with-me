@@ -6,7 +6,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.SubscriptionDto;
 import ru.practicum.dto.events.EventShortDto;
-import ru.practicum.dto.events.EventFullDto;
 import ru.practicum.services.SubscriptionService;
 
 import javax.validation.constraints.Positive;

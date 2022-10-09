@@ -20,7 +20,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ApiError> UnavailableStatisticsExceptionHandler(
+    public ResponseEntity<ApiError> unavailableStatisticsExceptionHandler(
             final UnavailableStatisticsException e) {
         return makeResponse(e, HttpStatus.INTERNAL_SERVER_ERROR,
                 "Сервис статистики не работает");
@@ -45,7 +45,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ApiError> NotFoundExceptionHandler(final NotFoundException e) {
+    public ResponseEntity<ApiError> notFoundExceptionHandler(final NotFoundException e) {
         return makeResponse(e, HttpStatus.NOT_FOUND,
                 "Запрашиваемый объект в базе данных не найден");
     }
@@ -57,7 +57,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ApiError> BadRequestExceptionHandler(final BadRequestException e) {
+    public ResponseEntity<ApiError> badRequestExceptionHandler(final BadRequestException e) {
         return makeResponse(e, HttpStatus.FORBIDDEN,
                 "Недопустимое действие с объектом");
     }
