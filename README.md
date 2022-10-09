@@ -1,4 +1,4 @@
-Ссылка на PR: 
+PR [#1](https://github.com/welderdefender/java-explore-with-me/pull/1)
 
 ## Это репозиторий проекта "ExploreWithMe"
 
@@ -7,8 +7,9 @@
 
 Приложение написано на Java. Пример кода:
 ```java
-public class FilmorateApplication {
+public class MainServerApp {
     public static void main(String[] args) {
+        SpringApplication.run(MainServerApp.class, args);
     }
 }
 ```
