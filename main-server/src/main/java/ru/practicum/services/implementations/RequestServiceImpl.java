@@ -1,7 +1,8 @@
-package ru.practicum.services.Implementations;
+package ru.practicum.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.RequestDto;
 import ru.practicum.errors.exceptions.BadRequestException;
 import ru.practicum.errors.exceptions.NotFoundException;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class RequestServiceImpl implements RequestService {
     private final EventRepository eventRepository;
     private final RequestRepository requestRepository;
 
     @Override
+    @Transactional
     public RequestDto create(long userId, Long eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("События с таким id не существует!"));
@@ -65,6 +68,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public RequestDto remove(long userId, long requestId) {
         Request request = getAndCheckRequest(requestId);
 
@@ -74,6 +78,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public RequestDto confirmRequest(long userId, long eventId, long requestId) {
         Event event = getAndCheckEvent(userId, eventId);
         Request request = getAndCheckRequest(requestId);
@@ -96,6 +101,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public RequestDto declineRequest(long userId, long eventId, long requestId) {
         getAndCheckEvent(userId, eventId);
         Request request = getAndCheckRequest(requestId);

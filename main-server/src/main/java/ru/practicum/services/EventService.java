@@ -19,7 +19,7 @@ public interface EventService {
 
     EventFullDto decline(long eventId);
 
-    public <T extends EventShortDto> void fullFillDto(List<T> listDto);
+    <T extends EventShortDto> void fullFillDto(List<T> listDto);
 
     List<EventShortDto> findShortEvents(CombineEventFilters filters, EventSortBy sort, Integer from, Integer size);
 

@@ -1,7 +1,8 @@
-package ru.practicum.services.Implementations;
+package ru.practicum.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.SubscriptionDto;
 import ru.practicum.dto.events.EventShortDto;
 import ru.practicum.errors.exceptions.NotFoundException;
@@ -19,12 +20,14 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final UserRepository userRepository;
     private final EventService eventService;
     private final SubscriptionRepository subscriptionRepository;
 
     @Override
+    @Transactional
     public SubscriptionDto create(long userId, long friendId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователя с таким id не существует!"));
@@ -41,6 +44,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         subscriptionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Подписки с таким id не существует!"));

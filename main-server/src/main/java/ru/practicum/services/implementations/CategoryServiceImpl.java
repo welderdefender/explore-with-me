@@ -1,9 +1,10 @@
-package ru.practicum.services.Implementations;
+package ru.practicum.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.CategoryDto;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.mappers.CategoryMapper;
@@ -16,10 +17,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public CategoryDto create(CategoryDto dto) {
         if ((dto.getId() != null) && (dto.getId() != 0)) {
             throw new IllegalArgumentException("Первоначальный id категории должен быть равен 0");
@@ -30,6 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryDto update(CategoryDto dto) {
         if ((dto.getId() == null) || (dto.getId() == 0)) {
             throw new IllegalArgumentException("id категории должен быть указан");
@@ -40,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Категории с таким id не существует!"));

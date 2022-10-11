@@ -1,9 +1,10 @@
-package ru.practicum.services.Implementations;
+package ru.practicum.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.events.*;
 import ru.practicum.errors.exceptions.BadRequestException;
 import ru.practicum.errors.exceptions.NotFoundException;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
     private final CategoryRepository categoryRepository;
     private final RequestRepository requestRepository;
@@ -38,6 +40,7 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public EventFullDto create(long ownerId, CreateEventDto createEventDto) {
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователя с таким id не существует!"));
@@ -53,6 +56,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto update(long userId, UpdateEventRequest updateEventRequest) {
         Event sourceEvent = getEventAndCheckOwner(userId, updateEventRequest.getEventId());
 
@@ -83,6 +87,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto removeUserEvent(long userId, long eventId) {
         Event event = getEventAndCheckOwner(userId, eventId);
 
@@ -95,6 +100,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto update(long eventId, AdminUpdateEvent adminUpdateEvent) {
         Event initialEvent = eventRepository.findById(eventId).get();
         EventMapper.prepareToUpdate(adminUpdateEvent, initialEvent);
@@ -148,6 +154,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public <T extends EventShortDto> void fullFillDto(List<T> listDto) {
         Set<Long> events = listDto.stream().map(EventShortDto::getId).collect(Collectors.toSet());
         Map<Long, Long> statisticsCount = statisticService.getEventViewCount(events);
@@ -159,6 +166,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto publish(long id) {
         Event event = getAndCheckEvent(id);
         LocalDateTime publishTime = LocalDateTime.now();
@@ -176,6 +184,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto decline(long eventId) {
         Event event = getAndCheckEvent(eventId);
 

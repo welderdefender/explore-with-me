@@ -26,7 +26,7 @@ public class HttpClientImpl implements HttpClient {
     private static final String API_HIT = "/hit";
     private static final String API_STATS = "/stats";
 
-    public HttpClientImpl(@Value("http://stats-server:9090") String url, RestTemplateBuilder builder) {
+    public HttpClientImpl(@Value("${stats-server.url}") String url, RestTemplateBuilder builder) {
         this.rest = builder.build();
         this.url = url;
         rest.setRequestFactory(new HttpComponentsClientHttpRequestFactory());

@@ -1,4 +1,4 @@
-package ru.practicum.services.Implementations;
+package ru.practicum.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -15,20 +15,21 @@ import ru.practicum.repositories.CompilationRepository;
 import ru.practicum.repositories.EventsCompilationRepository;
 import ru.practicum.repositories.events.EventRepository;
 import ru.practicum.services.CompilationService;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class CompilationServiceImpl implements CompilationService {
     private final EventsCompilationRepository eventsCompilationRepository;
     private final EventRepository eventRepository;
     private final CompilationRepository compilationRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public CompilationDto create(CreateCompilationDto dto) {
         Compilation compilation = CompilationMapper.toCompilation(dto);
         final Compilation compilationToSave = compilationRepository.save(compilation);
@@ -50,18 +51,21 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         checkCompilation(id);
         compilationRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void createEvent(long compilationId, long eventId) {
         EventsCompilation eventsList = new EventsCompilation(null, compilationId, checkEvent(eventId));
         eventsCompilationRepository.save(eventsList);
     }
 
     @Override
+    @Transactional
     public void pin(long id) {
         Compilation compilation = checkCompilation(id);
         compilation.setPinned(true);
@@ -69,6 +73,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void unpin(long id) {
         Compilation compilation = checkCompilation(id);
         compilation.setPinned(false);
@@ -76,6 +81,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void deleteEvent(long compilationId, long eventId) {
         EventsCompilation eventsList =
                 eventsCompilationRepository.findByCompIdAndEventId(compilationId, eventId)
