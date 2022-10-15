@@ -5,8 +5,6 @@ import ru.practicum.dto.events.EventShortDto;
 
 import java.util.List;
 
-
-
 public interface SubscriptionService {
     SubscriptionDto create(long userId, long friendId);
 

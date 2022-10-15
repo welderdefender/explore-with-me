@@ -54,12 +54,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public List<EventShortDto> getEvents(long userId) {
-        List<EventShortDto> el = subscriptionRepository.findEventsByUserId(userId).stream()
+        List<EventShortDto> eventsList = subscriptionRepository.findEventsByUserId(userId).stream()
                 .map(EventMapper::toEventShortDto)
                 .collect(Collectors.toList());
 
-        eventService.fullFillDto(el);
-        return el;
+        eventService.fullFillDto(eventsList);
+        return eventsList;
     }
 
     @Override
