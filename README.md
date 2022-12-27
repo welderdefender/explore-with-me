@@ -56,7 +56,7 @@
 
 ## Запуск приложения
 1. Склонировать репозиторий и открыть его в IntelliJ IDEA.
-2. Ввести в терминале команду docker-compose up
+2. Ввести в терминале команду **docker-compose up**
 
 ## Тестирование в Postman
 Для запуска коллекции тестов необходимо предварительно запустить приложение командой docker-compose up, затем импортировать [тесты для основного сервиса](https://github.com/welderdefender/explore-with-me/blob/main/postman-and-api-specs/ewm-main-service.json) и [тесты для сервиса статистики](https://github.com/welderdefender/explore-with-me/blob/main/postman-and-api-specs/ewm-stat-service.json) в Postman и запустить их.
